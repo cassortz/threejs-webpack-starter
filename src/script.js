@@ -1,6 +1,7 @@
 import './style.css'
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
+import {VRButton} from 'three/examples/jsm/webxr/VRButton.js'
 import * as dat from 'dat.gui'
 
 // Debug
@@ -9,18 +10,20 @@ const gui = new dat.GUI()
 // Canvas
 const canvas = document.querySelector('canvas.webgl')
 
+
 // Scene
 const scene = new THREE.Scene()
 
-// Objects
-const geometry = new THREE.TorusGeometry( .7, .2, 16, 100 );
+// Objects - like body
+const geometry = new THREE.SphereBufferGeometry(.5, 64, 64)
 
-// Materials
+// Materials - like clothes
 
-const material = new THREE.MeshBasicMaterial()
+const material = new THREE.MeshStandardMaterial()
+
 material.color = new THREE.Color(0xff0000)
 
-// Mesh
+// Mesh - ties both objects and materials together
 const sphere = new THREE.Mesh(geometry,material)
 scene.add(sphere)
 
@@ -73,14 +76,22 @@ scene.add(camera)
  * Renderer
  */
 const renderer = new THREE.WebGLRenderer({
-    canvas: canvas
+    canvas: canvas,
+    alpha: true
 })
 renderer.setSize(sizes.width, sizes.height)
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+document.body.appendChild(VRButton.createButton(renderer))
+renderer.xr.enabled=true
 
 /**
  * Animate
  */
+
+renderer.setAnimationLoop(function()
+{
+    renderer.render(scene,camera)
+})
 
 const clock = new THREE.Clock()
 
@@ -99,7 +110,8 @@ const tick = () =>
     renderer.render(scene, camera)
 
     // Call tick again on the next frame
-    window.requestAnimationFrame(tick)
+   // window.requestAnimationFrame(tick)
+   
 }
 
 tick()
