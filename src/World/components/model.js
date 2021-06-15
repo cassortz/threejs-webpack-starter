@@ -7,42 +7,64 @@ import {
     TextureLoader,
 } from 'three';
 
-function createMaterial(){
+import {
+    GLTFLoader
+} from 'three/examples/jsm/loaders/GLTFLoader.js';
 
-    const textureLoader = new TextureLoader();
+import { setupModel } from './setupModel.js';
 
-    const texture = textureLoader.load(
-        '/assets/textures/boy_dif.png',
-    );
+async function loadModels(){
+    const loader = new GLTFLoader();
 
-    const material = new MeshStandardMaterial({ 
-        map: texture,
-    });
+    const [boyData] = await Promise.all([
+        loader.loadAsync('scene.gltf',)
+    ]);
+    console.log('hello', boyData);
 
-    return material;
+    const boy = setupModel(boyData);
+    boy.position.set(0,0,-20);
+    boy.scale.set(0.05,0.05,0.05);
+
+    return{boy,};
 }
+export {loadModels};
 
-function createModel() {
+// function createMaterial(){
+
+//     const textureLoader = new TextureLoader();
+
+//     const texture = textureLoader.load(
+//         '/textures/boy_dif.png',
+//     );
+
+//     const material = new MeshStandardMaterial({ 
+//         map: texture,
+//     });
+
+//     return material;
+// }
+
+// function createModel() {
     
-    const geometry = new SphereBufferGeometry(2,6,6);
+//     const geometry = new SphereBufferGeometry(2,6,6);
     
-    const material = createMaterial();
+//     const material = createMaterial();
 
-    const sphere = new Mesh(geometry,material);
+//     const sphere = new Mesh(geometry,material);
 
-    //sphere.rotation.set(-0.5, -0.1, 0.8);
+//     //sphere.rotation.set(-0.5, -0.1, 0.8);
     
-    //material.color = new Color('red');
+//     //material.color = new Color('red');
 
-    const radiansPerSecond = MathUtils.degToRad(30);
+//     const radiansPerSecond = MathUtils.degToRad(30);
 
-    sphere.tick = (delta) => {
-        sphere.rotation.z+= radiansPerSecond * delta;
-        sphere.rotation.x+= radiansPerSecond * delta;
-        sphere.rotation.y+= radiansPerSecond * delta;
-    };
+//     sphere.tick = (delta) => {
+//         sphere.rotation.z+= radiansPerSecond * delta;
+//         sphere.rotation.x+= radiansPerSecond * delta;
+//         sphere.rotation.y+= radiansPerSecond * delta;
+//     };
 
-    return sphere;
-}
+//     return sphere;
+// }
 
-export {createModel};
+//export {createModel};
