@@ -128,15 +128,17 @@ import './main.css'
 
 import { World } from './World/World.js';
 
-function main(){
+async function main(){
     
     //reference container element
     const container = document.querySelector('#scene-container');
     
     //create instance of world app
     const world = new World(container);
+
+    await world.init();
     
-    //oridyce a subgke frame (render on demand)
+    //render on demand
     // world.render();
 
     //start animation loop (stream of frames)
@@ -144,4 +146,6 @@ function main(){
 
 }
 
-main();
+main().catch((err) => {
+    console.error(err);
+  });
