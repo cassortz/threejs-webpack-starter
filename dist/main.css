@@ -1,23 +1,25 @@
-*
-{
+body {
     margin: 0;
-    padding: 0;
-}
+    overflow: hidden;
 
-html,
-body
-{
-    height: 100vh;
+    /*style text*/
+    text-align:center;
     font-family: 'Poppins';
-    background: rgb(50,50,50);
+
 }
 
-.webgl
-{
-    position: fixed;
-    top: 0;
-    left: 0;
-    outline: none;
+h1 {
+    position: absolute;
+    width:100%;
+    z-index: 1;
+}
+
+#scene-container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+
+    background-color: skyblue;
 }
 
 
